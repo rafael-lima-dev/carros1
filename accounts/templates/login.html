@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+    }
+
+    .login-container {
+        max-width: 380px;
+        margin: 60px auto;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+    }
+
+    form p {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 6px;
+        color: #444;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    .btn-login {
+        width: 100%;
+        background-color: #007bff;
+        color: white;
+        padding: 12px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .btn-login:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="login-container">
+    <h2>Login</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p>
+            {{ login_form.username.errors }}
+            <label for="{{ login_form.username.id_for_label }}">Usuário:</label>
+            {{ login_form.username }}
+        </p>
+
+        <p>
+            {{ login_form.password.errors }}
+            <label for="{{ login_form.password.id_for_label }}">Senha:</label>
+            {{ login_form.password }}
+        </p>
+
+        <button type="submit" class="btn-login">Entrar</button>
+    </form>
+</div>
+
+{% endblock %}
+
+
+

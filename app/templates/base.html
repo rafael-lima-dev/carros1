@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block description %}RafaVeículos - Compra e venda de carros usados em Senador Pompeu-CE. Os melhores veículos com qualidade e garantia{% endblock %}">
+    <title>{% block title %}RafaVeículos - Compra e Venda de Carros Usados{% endblock %}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #1e40af;
+            --primary-dark: #1e3a8a;
+            --secondary-orange: #f97316;
+            --secondary-dark: #ea580c;
+            --success-green: #16a34a;
+            --warning-yellow: #eab308;
+            --danger-red: #dc2626;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background-color: var(--gray-50);
+        }
+
+        /* Header Principal */
+        .main-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-top {
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .header-top .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 20px;
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-links a:hover {
+            opacity: 1;
+        }
+
+        .header-main {
+            padding: 15px 0;
+        }
+
+        .header-main > .container {
+            max-width: 100%;
+            padding: 0;
+        }
+
+        .navbar {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 30px;
+            min-height: 90px;
+            padding: 0 40px;
+        }
+
+        .navbar-left-banner {
+            justify-self: start;
+            z-index: 2;
+        }
+
+        .super-banner {
+            background: var(--secondary-orange);
+            color: #fff;
+            padding: 15px 32px;
+            border-radius: 8px;
+            font-family: 'Poppins', 'Roboto', Arial, sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            min-width: unset;
+            max-width: 100vw;
+            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            height: auto;
+            white-space: nowrap;
+        }
+
+        .banner-text {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            white-space: normal;
+            padding: 0 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .banner-text.active {
+            opacity: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-center {
+            justify-self: center;
+            z-index: 2;
+        }
+
+        .menu-right {
+            grid-column: 3 / 4;
+            justify-self: end;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 3;
+        }
+
+        .whatsapp-float-button {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #fff;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .whatsapp-float-button:hover {
+            transform: scale(1.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--secondary-orange);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .logo-text {
+            text-align: center;
+        }
+
+        .logo-text h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 30px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .logo-text p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            align-items: center;
+            margin: 0;
+        }
+
+        .nav-item a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-item a:hover,
+        .nav-item a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-greeting {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            line-height: 1.2;
+            user-select: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+            color: var(--white);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-dark);
+            border-color: var(--secondary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-outline:hover {
+           background-color: var(--primary-blue);
+           border-color: var(--primary-blue);
+           color: var(--white);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Mobile Menu */
+        @media (max-width: 900px) {
+            .navbar {
+                flex-direction: column;
+                min-height: unset;
+                align-items: center;
+                padding: 10px 20px;
+            }
+            .navbar-left-banner {
+                display: none;
+            }
+            .logo-center,
+            .menu-right {
+                position: static;
+                left: unset;
+                right: unset;
+                top: unset;
+                transform: none;
+                margin-bottom: 16px;
+                text-align: center;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                margin-right: 0;
+                margin-left: 0;
+            }
+            .super-banner {
+                margin: 0 auto 10px auto;
+                max-width: 320px;
+                min-width: unset;
+                text-align: center;
+                padding: 10px 10px;
+                width: 100%;
+                border-radius: 8px;
+                box-sizing: border-box;
+            }
+            .banner-text {
+                font-size: 1rem;
+                padding: 0 2px;
+                left: 0;
+                right: 0;
+                width: 100%;
+            }
+            .logo-center {
+                margin-bottom: 16px;
+            }
+            .menu-right {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+            .user-menu {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+            .container {
+                max-width: 100vw;
+                padding: 0 5px;
+                box-sizing: border-box;
+            }
+            .main-content {
+                padding: 10px 0;
+            }
+            .cars-grid {
+                grid-template-columns: 1fr !important;
+                gap: 12px;
+                width: 100%;
+                margin: 0 auto;
+            }
+            .car-card {
+                width: 100%;
+                min-width: unset;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 2px;
+            }
+            .main-content {
+                padding: 5px 0;
+            }
+            .cars-grid {
+                gap: 8px;
+            }
+            .hero-content h2 {
+                font-size: 1.8rem;
+            }
+
+            .logo-text h1 {
+                font-size: 20px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            min-height: calc(100vh - 200px);
+            padding: 40px 0;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero-content h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 24px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-4px);
+        }
+
+        .card-header {
+            border-bottom: 1px solid var(--gray-200);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin: 0;
+        }
+
+        /* Grid de Carros */
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        .car-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+
+        .car-card:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-4px);
+        }
+
+        .car-image {
+            width: 100%;
+            height: 200px;
+            background: var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--gray-400);
+        }
+
+        .car-info {
+            padding: 20px;
+        }
+
+        .car-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .car-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .car-detail {
+            background: var(--gray-100);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--gray-600);
+        }
+
+        .car-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-orange);
+            margin-bottom: 16px;
+        }
+
+        /* Formulários */
+        .form-container {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 32px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        /* Mensagens */
+        .messages {
+            margin: 20px 0;
+        }
+
+        .alert {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background-color: #dcfce7;
+            color: #166534;
+            border-left: 4px solid var(--success-green);
+        }
+
+        .alert-error {
+            background-color: #fef2f2;
+            color: #991b1b;
+            border-left: 4px solid var(--danger-red);
+        }
+
+        .alert-info {
+            background-color: #eff6ff;
+            color: #1e40af;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        /* Footer */
+        .main-footer {
+            background: var(--gray-900);
+            color: var(--white);
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--secondary-orange);
+        }
+
+        .footer-section p,
+        .footer-section li {
+            margin-bottom: 12px;
+            color: var(--gray-300);
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: var(--gray-300);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary-orange);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--gray-700);
+            padding-top: 20px;
+            text-align: center;
+            color: var(--gray-400);
+        }
+
+        /* Responsividade */
+        @media (max-width: 1100px) {
+            .header-main > .container {
+                padding: 0;
+            }
+            .navbar {
+                gap: 25px;
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .header-main > .container {
+                padding: 0;
+            }
+            .header-top {
+                display: none;
+            }
+            .navbar {
+                display: flex;
+                flex-direction: column;
+                min-height: unset;
+                align-items: center;
+                padding: 10px 20px;
+            }
+            .navbar-left-banner,
+            .logo-center,
+            .menu-right {
+                justify-self: initial;
+                position: static;
+                left: unset;
+                right: unset;
+                top: unset;
+                transform: none;
+                margin-bottom: 16px;
+                text-align: center;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                margin-right: 0;
+                margin-left: 0;
+            }
+            .super-banner {
+                margin: 0 auto 10px auto;
+                max-width: 320px;
+                min-width: unset;
+                text-align: center;
+                padding: 10px 10px;
+                width: 100%;
+                border-radius: 8px;
+                box-sizing: border-box;
+            }
+            .banner-text {
+                font-size: 1rem;
+                padding: 0 2px;
+                left: 0;
+                right: 0;
+                width: 100%;
+            }
+            .logo-center {
+                margin-bottom: 16px;
+            }
+            .menu-right {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+            .user-menu {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+            .mobile-toggle {
+                display: block;
+            }
+            .container {
+                max-width: 100vw;
+                padding: 0 5px;
+                box-sizing: border-box;
+            }
+            .main-content {
+                padding: 10px 0;
+            }
+            .cars-grid {
+                grid-template-columns: 1fr !important;
+                gap: 12px;
+                width: 100%;
+                margin: 0 auto;
+            }
+            .car-card {
+                width: 100%;
+                min-width: unset;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+            .hero-content h2 {
+                font-size: 2rem;
+            }
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            .form-container {
+                padding: 24px 20px;
+                margin: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 2px;
+            }
+            .main-content {
+                padding: 5px 0;
+            }
+            .cars-grid {
+                gap: 8px;
+            }
+            .hero-content h2 {
+                font-size: 1.8rem;
+            }
+            .logo-text h1 {
+                font-size: 20px;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+    <!-- Favicon SVG embutido -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231e40af'/%3E%3Cpath d='M16 44v-4c0-2.2 1.8-4 4-4h24c2.2 0 4 1.8 4 4v4' fill='%23fff'/%3E%3Cellipse cx='22' cy='44' rx='4' ry='4' fill='%23fff'/%3E%3Cellipse cx='42' cy='44' rx='4' ry='4' fill='%23fff'/%3E%3Crect x='20' y='28' width='24' height='8' rx='4' fill='%23fff'/%3E%3Crect x='24' y='20' width='16' height='8' rx='4' fill='%23fff'/%3E%3C/svg%3E">
+    <!-- (Opcional) Favicon padrão para fallback -->
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-top">
+            <div class="container">
+                <div class="contact-info">
+                    <span>📞 (88) 98133-5832</span>
+                    <span>📍 Senador Pompeu - CE </span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <nav class="navbar">
+                    <div class="navbar-left-banner">
+                        <div class="super-banner">
+                            <span class="banner-text active">SUPER ATACADO DE VEÍCULOS</span>
+                            <span class="banner-text">RAFA VEÍCULOS</span>
+                        </div>
+                    </div>
+                    <div class="logo-center">
+                        <a href="{% url 'cars_list' %}" class="logo">
+                            <div class="logo-icon">RV</div>
+                            <div class="logo-text">
+                                <h1>RafaVeículos</h1>
+                                <p>Qualidade e Confiança</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="menu-right">
+                        <ul class="nav-menu" id="navMenu">
+                            <li class="nav-item">
+                                <a href="{% url 'cars_list' %}" class="btn btn-primary {% if request.resolver_match.url_name == 'cars_list' %}active{% endif %}">Início</a>
+                            </li>
+                            {% if user.is_authenticated %}
+                                <li class="nav-item">
+                                    <a href="{% url 'new_car' %}" class="btn btn-primary">Cadastrar Carro</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                        <div class="user-menu">
+                            {% if user.is_authenticated %}
+                                <span class="user-greeting">👋 Olá, {{ user.username }}!</span>
+                                <a href="{% url 'logout' %}" class="btn btn-primary">Sair</a>
+                            {% else %}
+                                <a href="{% url 'login' %}" class="btn btn-primary">Entrar</a>
+                                <a href="{% url 'register' %}" class="btn btn-primary">Cadastrar-se</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <button class="mobile-toggle" onclick="toggleMobileMenu()">☰</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    {% if messages %}
+        <div class="container">
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {% if message.tags == 'success' %}✅{% elif message.tags == 'error' %}❌{% else %}ℹ️{% endif %}
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <main class="main-content">
+        <div class="container">
+            {% block content %}
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h2>Encontre o Carro dos Seus Sonhos</h2>
+                    <p>Os melhores veículos usados com qualidade garantida em Senador Pompeu-CE</p>
+                    <div class="hero-actions">
+                        <a href="#" class="btn btn-primary">Ver Carros</a>
+                        <a href="#" class="btn btn-outline">Vender Meu Carro</a>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>RafaVeículos</h4>
+                    <p>Há anos no mercado automotivo de Senador Pompeu - CE , oferecendo os melhores carros usados com qualidade e garantia.</p>
+                    <p>Sua satisfação é nossa prioridade!</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li>📞 (88) 98133-5832</li>
+                        <li>✉️ contato@rafaveiculos.com.br</li>
+                        <li>📍 Senador Pompeu - Ceará</li>
+                        <li>⏰ Seg-Sex: 8h às 18h | Sáb: 8h às 12h</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Serviços</h4>
+                    <ul>
+                        <li><a href="#">Compra de Veículos</a></li>
+                        <li><a href="#">Venda de Veículos</a></li>
+                        <li><a href="#">Avaliação Gratuita</a></li>
+                        <li><a href="#">Financiamento</a></li>
+                        <li><a href="#">Documentação</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Redes Sociais</h4>
+                    <p>Siga-nos para novidades e ofertas especiais:</p>
+                    <div style="display: flex; gap: 15px; margin-top: 15px;">
+                        <a href="#" style="font-size: 24px;">📱</a>
+                        <a href="#" style="font-size: 24px;">📘</a>
+                        <a href="#" style="font-size: 24px;">💬</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; {% now "Y" %} RafaVeículos. Todos os direitos reservados. | Desenvolvido por Rafael</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5588981335832?text=Olá!%20Tenho%20interesse%20em%20um%20veículo." class="whatsapp-float-button" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
+            <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+        </svg>
+    </a>
+
+    <script>
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Fecha menu mobile ao clicar em links
+        document.querySelectorAll('.nav-item a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+
+        // Fecha menu mobile ao redimensionar
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.getElementById('navMenu').classList.remove('active');
+            }
+        });
+
+        // Smooth scroll para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Alterna os textos do banner a cada 2 segundos
+        setInterval(() => {
+            const banners = document.querySelectorAll('.super-banner .banner-text');
+            banners.forEach(b => b.classList.toggle('active'));
+        }, 2000);
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

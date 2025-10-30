@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load format_brl %}
+
+{% block content %}
+  <style>
+    .car-card {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      border-radius: 12px;
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.3s ease;
+      max-width: 500px;
+      margin: 20px auto 0;
+      margin-bottom: 20px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .car-card:hover {
+      cursor: pointer;
+      box-shadow: var(--shadow-xl);
+      transform: translateY(-2px);
+    }
+
+    .car-card img {
+      width: 100%;
+      max-height: 350px;
+      object-fit: contain;
+      background: var(--gray-200);
+      display: block;
+      margin: 0 auto;
+    }
+
+    .car-card h2 {
+      font-size: 1.5rem;
+      margin: 10px;
+      color: var(--primary-blue);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+    }
+
+    .car-card p {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: var(--gray-700);
+    }
+    .car-card p strong {
+      color: var(--primary-blue);
+    }
+    .car-card p:last-child strong, .car-card p:last-child {
+      color: var(--secondary-orange);
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--primary-blue);
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      margin: 0 10px;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background-color: var(--secondary-dark);
+    }
+
+    .btn-danger {
+      background-color: var(--danger-red);
+      text-decoration: none !important;
+    }
+
+    .btn-danger:hover {
+      background-color: #d2221c;
+    }
+
+    .error-message {
+      color: var(--danger-red);
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    a {
+      text-decoration: none !important;
+    }
+  </style>
+  <div class="car-card">
+    {% if object.photo %}
+      <img src="{{ object.photo.url }}" alt="{{ object.model }} - {{ object.brand }}">
+    {% else %}
+      <p class="no-photo">Nenhuma foto disponível</p>
+    {% endif %}
+      <h2>{{ object.brand }} {{ object.model }}</h2>
+      <p><strong>Ano de fabricação:</strong> {{ object.factory_year }}</p>
+      <p><strong>Ano do modelo:</strong> {{ object.model_year }}</p>
+      {% if object.plate %}
+        <p><strong>Placa:</strong> {{ object.plate }}</p>
+      {% endif %}
+      <p><strong>Preço:</strong> <span style="color: var(--secondary-orange); font-weight: 600;">R$ {{ object.price|brl }}</span></p>
+      {% if object.bio %}
+      <p><strong>Descrição:</strong> {{ object.bio }}</p>
+      {% endif %}
+      {% if user.is_authenticated %}
+        <div class="form-actions" style="margin-top: 24px; gap: 12px;">
+          <a href="{% url 'car_update' object.pk %}" class="btn btn-primary">Editar</a>
+          <a href="{% url 'car_delete' object.pk %}" class="btn btn-danger">Excluir</a>
+        </div>
+      {% endif %}
+  </div>
+  <!--<button class="btn btn-primary" onclick="window.history.back();">Voltar</button>
+
+{% endblock %}
